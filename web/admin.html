@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MeghAlert Admin Dashboard</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <!-- Login Screen -->
+  <div id="login-screen" class="screen active">
+    <div class="login-container">
+      <div class="login-card">
+        <h1>🚨 MeghAlert</h1>
+        <p class="subtitle">Admin Dashboard</p>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" required placeholder="admin@meghalert.com">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required placeholder="Enter password">
+          </div>
+          <div id="login-error" class="error-msg"></div>
+          <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+        <p class="demo-hint">Demo: admin@meghalert.com / admin123</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Dashboard -->
+  <div id="dashboard-screen" class="screen">
+    <!-- Header -->
+    <header class="dashboard-header">
+      <div class="header-content">
+        <h1>🚨 MeghAlert Dashboard</h1>
+        <div class="header-right">
+          <span id="ws-status" class="status-badge">Disconnected</span>
+          <span id="welcome-text" class="welcome-text"></span>
+          <button id="logout-btn" class="btn btn-secondary">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="overview">📊 Overview</button>
+      <button class="tab-btn" data-tab="sos-events">🚨 SOS Events</button>
+      <button class="tab-btn" data-tab="fixed-points">📍 Fixed Points</button>
+      <button class="tab-btn" data-tab="tracking">📡 Live Tracking</button>
+    </nav>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+      <!-- Overview Tab -->
+      <div id="overview-tab" class="tab-pane active">
+        <div class="dashboard-grid">
+          <!-- Stats Cards -->
+          <div class="stats-container">
+            <div class="stat-card">
+              <div class="stat-icon">🚨</div>
+              <div class="stat-content">
+                <h3 id="stat-total-sos">0</h3>
+                <p>Total SOS Events</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">📱</div>
+              <div class="stat-content">
+                <h3 id="stat-active-devices">0</h3>
+                <p>Active Devices</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">📍</div>
+              <div class="stat-content">
+                <h3 id="stat-fixed-points">0</h3>
+                <p>Fixed Points</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main Map -->
+          <div class="map-container">
+            <div id="main-map" class="map"></div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="activity-panel">
+            <h3>Recent SOS Events</h3>
+            <div id="recent-activity" class="activity-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOS Events Tab -->
+      <div id="sos-events-tab" class="tab-pane">
+        <div class="events-container">
+          <div class="events-header">
+            <h2>SOS Events History</h2>
+            <button id="export-csv-btn" class="btn btn-secondary">📥 Export CSV</button>
+          </div>
+          <div class="events-map-container">
+            <div id="events-map" class="map"></div>
+          </div>
+          <div class="events-list">
+            <div class="events-filters">
+              <input type="text" id="search-events" placeholder="Search by device name or ID...">
+              <select id="filter-time">
+                <option value="all">All Time</option>
+                <option value="today">Today</option>
+                <option value="week">Last 7 Days</option>
+                <option value="month">Last 30 Days</option>
+              </select>
+            </div>
+            <div id="events-table-container">
+              <table id="events-table">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>Device</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="events-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fixed Points Tab -->
+      <div id="fixed-points-tab" class="tab-pane">
+        <div class="fixed-points-container">
+          <div class="fixed-points-header">
+            <h2>Fixed Points Management</h2>
+            <button id="add-point-btn" class="btn btn-primary">+ Add Fixed Point</button>
+          </div>
+          
+          <div class="fixed-points-grid">
+            <div class="points-map-container">
+              <div id="fixed-points-map" class="map"></div>
+              <div class="map-instructions">
+                Click on the map to add a new fixed point or select an existing marker to edit
+              </div>
+            </div>
+            
+            <div class="points-list-container">
+              <h3>Saved Fixed Points</h3>
+              <div id="fixed-points-list" class="points-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Tracking Tab -->
+      <div id="tracking-tab" class="tab-pane">
+        <div class="tracking-container">
+          <div class="tracking-header">
+            <h2>Live Device Tracking</h2>
+            <div class="tracking-controls">
+              <label class="switch">
+                <input type="checkbox" id="auto-follow-toggle" checked>
+                <span class="slider"></span>
+                <span class="label">Auto-Follow</span>
+              </label>
+            </div>
+          </div>
+          <div class="tracking-grid">
+            <div class="tracking-map-container">
+              <div id="tracking-map" class="map"></div>
+            </div>
+            <div class="tracking-info-panel">
+              <h3>Active Devices</h3>
+              <div id="tracking-devices-list" class="devices-list"></div>
+              <div class="alerts-section">
+                <h3>Live SOS Alerts</h3>
+                <div id="tracking-alerts-list" class="alerts-list"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Fixed Point Modal -->
+  <div id="point-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">Add Fixed Point</h3>
+        <button class="modal-close" id="close-modal">&times;</button>
+      </div>
+      <form id="point-form">
+        <input type="hidden" id="point-id">
+        <div class="form-group">
+          <label for="point-type">Type</label>
+          <select id="point-type" required>
+            <option value="police">🚓 Police Station</option>
+            <option value="hospital">🏥 Hospital</option>
+            <option value="fire">🚒 Fire Station</option>
+            <option value="shelter">🏠 Emergency Shelter</option>
+            <option value="other">📍 Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="point-name">Name</label>
+          <input type="text" id="point-name" required placeholder="e.g., City Police Station">
+        </div>
+        <div class="form-group">
+          <label for="point-address">Address</label>
+          <input type="text" id="point-address" placeholder="Street address (optional)">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="point-lat">Latitude</label>
+            <input type="number" id="point-lat" step="any" required placeholder="25.5788">
+          </div>
+          <div class="form-group">
+            <label for="point-lng">Longitude</label>
+            <input type="number" id="point-lng" step="any" required placeholder="91.8933">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="point-phone">Contact Phone</label>
+          <input type="tel" id="point-phone" placeholder="+91 9876543210">
+        </div>
+        <div class="form-group">
+          <label for="point-notes">Notes</label>
+          <textarea id="point-notes" rows="3" placeholder="Additional information..."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="cancel-point-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Point</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
