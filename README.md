@@ -2,6 +2,33 @@
 
 A comprehensive cross-platform emergency alert system with real-time location tracking, admin dashboard, and instant notifications.
 
+---
+
+## 🎬 Demo & Screenshots
+
+### 📱 App Demo (GIF)
+
+<p align="center">
+  <img src="demo/SOS-file.gif" alt="MeghAlert SOS App Demo" width="300">
+</p>
+
+### 🎥 Full Video Demo
+
+> 📺 **[Watch Full Demo Video (4 minutes)](demo/video-sample.mp4)** - Complete walkthrough of the SOS app and admin dashboard functionality.
+
+<details>
+<summary>📸 Click to see more screenshots</summary>
+
+| Mobile App | Admin Dashboard |
+|:----------:|:---------------:|
+| SOS Button Interface | Real-time Monitoring |
+| Location Tracking | Event Management |
+| User Registration | Live Map View |
+
+</details>
+
+---
+
 ## 📋 Overview
 
 **MeghAlert** is a modern emergency response application that combines a Flutter mobile app with a web-based admin dashboard. Users can send SOS alerts with a single button click, and administrators can monitor and respond to emergencies in real-time with live location tracking and event management.
