@@ -35,7 +35,7 @@ MeghAlert is a comprehensive SOS/device tracking admin web application for Megha
 
 ### 1. Start the Server
 ```bash
-cd c:\Users\khong\OneDrive\Desktop\Projects\SOS-Buzzer-master\server
+cd D:\Projects\SOS-Buzzer-master\server
 npm start
 ```
 
