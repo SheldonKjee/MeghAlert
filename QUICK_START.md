@@ -247,7 +247,7 @@ git push heroku main
 
 ```
 Project Root:
-c:\Users\khong\OneDrive\Desktop\Projects\SOS-Buzzer-master\
+D:\Projects\SOS-Buzzer-master\
 
 Server:
 ├── server/server.js              Main application
