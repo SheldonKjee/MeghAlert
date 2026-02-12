@@ -4,7 +4,7 @@
 
 ```powershell
 # 1. Navigate to project
-cd c:\Users\khong\OneDrive\Desktop\Projects\SOS-Buzzer-master
+cd as so one
 
 # 2. Start server
 cd server
@@ -106,7 +106,7 @@ Write-Host "CSV exported to sos_events.csv"
 
 ### Watch Server Logs
 ```powershell
-Get-Content c:\Users\khong\OneDrive\Desktop\Projects\SOS-Buzzer-master\server\server.log -Wait
+Get-Content A:\Users\.....\SOS-Buzzer-master\server\server.log -Wait
 ```
 
 ### Monitor Running Processes
@@ -203,8 +203,8 @@ You can test APIs directly in PowerShell or tools like Postman:
 ```powershell
 # Create backup of project
 $timestamp = (Get-Date -Format "yyyy-MM-dd_HHmmss")
-Copy-Item -Path "c:\Users\khong\OneDrive\Desktop\Projects\SOS-Buzzer-master" `
-  -Destination "c:\Users\khong\OneDrive\Desktop\Projects\SOS-Buzzer-backup-$timestamp" -Recurse
+Copy-Item -Path "D:Projects\SOS-Buzzer-master" `
+  -Destination "D:Projects\SOS-Buzzer-backup-$timestamp" -Recurse
 
 Write-Host "Backup created: SOS-Buzzer-backup-$timestamp"
 ```
@@ -283,11 +283,11 @@ Test-NetConnection localhost -Port 3000
 Invoke-WebRequest http://localhost:3000/api/login -Method Options
 
 # 4. Check files are in place
-Test-Path c:\Users\khong\OneDrive\Desktop\Projects\SOS-Buzzer-master\server\server.js
-Test-Path c:\Users\khong\OneDrive\Desktop\Projects\SOS-Buzzer-master\web\admin.html
+Test-Path D:Projects\SOS-Buzzer-master\server\server.js
+Test-Path D:Projects\SOS-Buzzer-master\web\admin.html
 
 # 5. Check logs exist
-Test-Path c:\Users\khong\OneDrive\Desktop\Projects\SOS-Buzzer-master\server\server.log
+Test-Path D:Projects\SOS-Buzzer-master\server\server.log
 ```
 
 All should return `True` or show running processes.
